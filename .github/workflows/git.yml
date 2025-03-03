@@ -1,0 +1,18 @@
+name: Git
+
+on:
+  pull_request_target:
+    branches: [ master ]
+
+jobs:
+  labeler:
+    name: Label PRs depending on changes
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.sha }}
+    - uses: actions/labeler@v5
+      with:
+        repo-token: "${{ github.token }}"

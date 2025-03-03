@@ -1,0 +1,58 @@
+name: Erlang CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        otp_version: ['27', '26', '25']
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ matrix.otp_version }}
+        rebar3-version: '3.24'
+    - name: Restore dependencies cache
+      uses: actions/cache@v4
+      with:
+        path: deps
+        key: ${{ runner.os }}-otp-${{ matrix.otp_version }}-mix-${{ hashFiles('**/rebar.lock') }}
+        restore-keys: ${{ runner.os }}-otp-${{ matrix.otp_version }}-rebar-
+    - name: Compile
+      run: rebar3 compile
+    - name: Run tests
+      run: rebar3 do ct --cover
+    - name: Generate coverage data
+      run: rebar3 covertool generate
+    - uses: codecov/codecov-action@v1
+      with:
+        file: ./_build/test/covertool/systemd.covertool.xml
+        flags: otp-${{ matrix.otp_version }}
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: '27'
+        rebar3-version: '3.24'
+    - name: Check if docs build
+      run: rebar3 ex_doc
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: '27'
+        rebar3-version: '3.24'
+    - name: Check if code is formatted properly
+      run: rebar3 fmt --check
