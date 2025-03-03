@@ -1,18 +1,22 @@
-{application, logger_udp,
- [{description, "Erlang handler for UDP logging"},
-  {vsn, git},
-  {registered, [logger_udp_local
-                logger_udp_inet
-                logger_udp_inet6
-               ]},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
+% SPDX-FileCopyrightText: 2025 Łukasz Niemier <#@hauleth.dev>
+%
+% SPDX-License-Identifier: Apache-2.0
 
-  {licenses, ["Apache-2.0"]},
-  {links, [{"GitHub", "https://github.com/hauleth/logger_udp"}
-          ]}
- ]}.
+{application, logger_udp, [
+    {description, "Erlang handler for UDP logging"},
+    {vsn, git},
+    {registered, [
+        logger_udp_local,
+        logger_udp_inet,
+        logger_udp_inet6
+    ]},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
+    {env, []},
+    {modules, []},
+
+    {licenses, ["Apache-2.0"]},
+    {links, [{"GitHub", "https://github.com/hauleth/logger_udp"}]}
+]}.
