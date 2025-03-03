@@ -8,6 +8,12 @@ SPDX-License-Identifier: Apache-2.0
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Documentation
+
+- Add CI shields to README.md
+
 ## [1.0.0](https://github.com/hauleth/logger_udp/tree/v1.0.0) - 2025-03-03
 
 ### Features
