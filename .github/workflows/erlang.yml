@@ -32,9 +32,11 @@ jobs:
       run: rebar3 do ct --cover
     - name: Generate coverage data
       run: rebar3 covertool generate
-    - uses: codecov/codecov-action@v1
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
       with:
-        file: ./_build/test/covertool/systemd.covertool.xml
+        files: _build/test/covertool/logger_udp.covertool.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
         flags: otp-${{ matrix.otp_version }}
 
   docs:
