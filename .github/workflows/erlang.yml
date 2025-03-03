@@ -38,6 +38,13 @@ jobs:
         files: _build/test/covertool/logger_udp.covertool.xml
         token: ${{ secrets.CODECOV_TOKEN }}
         flags: otp-${{ matrix.otp_version }}
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        files: _build/test/logs/last/junit_report.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: otp-${{ matrix.otp_version }}
 
   docs:
     runs-on: ubuntu-latest
